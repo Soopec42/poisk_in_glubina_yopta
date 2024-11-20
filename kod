@@ -1,0 +1,60 @@
+#include <iostream>
+#include <stack>
+#include <unordered_map>
+
+using namespace std;
+
+int main()
+{
+    
+    unordered_map<string, vector<string>> graph;
+	graph["you"] = { "bob", "alice", "claire" };
+	graph["bob"] = { "anuj", "peggy" };
+	graph["alice"] = { "peggy" };
+	graph["claire"] = { "thom", "jonny" };
+	graph["anuj"] = {};
+	graph["peggy"] = {};
+	graph["thom"] = {};
+	graph["jonny"] = {};
+
+	string person;
+	string wanted;
+    stack<string> s;
+	s.push("you");
+	cin >> wanted;
+	unordered_map<string, int> searched;
+	while (!s.empty())
+	{
+		person = s.top();
+		s.pop();
+		if (searched[person] != 1) {
+			if (person != wanted)
+			{
+				searched[person] = 1;
+
+				if (!graph[person].empty())
+				{
+					for (auto item : graph[person])
+					{
+						s.push(item);
+					}
+				}
+
+			}
+			else
+			{
+				cout << "yes";
+				break;
+			}
+
+
+
+		}
+	}
+	if (s.empty() && person != wanted)
+	{
+		cout << "Person not found!" << endl;
+	}
+
+
+}
